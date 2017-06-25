@@ -1,7 +1,9 @@
 import * as TextWindow from './text-window.js';
+import * as GraphicsWindow from './graphics-window.js';
 main();
 async function main() {
     await TextWindow.Show();
+    await GraphicsWindow.Show();
     await TextWindow.WriteLine("Hola");
     await TextWindow.PauseIfVisible();
     await TextWindow.WriteLine("Despues de una tecla");
