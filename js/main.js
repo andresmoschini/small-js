@@ -5,6 +5,8 @@ async function main() {
     await TextWindow.WriteLine("Hola");
     await TextWindow.PauseIfVisible();
     await TextWindow.WriteLine("Despues de una tecla");
-    await TextWindow.Pause();
-    await TextWindow.Hide();
+    var k = await TextWindow.ReadKey();
+    await TextWindow.WriteLine("key: " + k);
+    //await TextWindow.Pause();
+    //await TextWindow.Hide();
 }
