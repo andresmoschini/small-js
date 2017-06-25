@@ -1,6 +1,10 @@
 var component = document.getElementById('sjs-TextWindow');
 var textarea = component.querySelectorAll('.sjs-TextWindow-textarea')[0];
 var textInput = component.querySelectorAll('.sjs-TextWindow-textline')[0];
+var numberInput = component.querySelectorAll('.sjs-TextWindow-number')[0];
+var submitButon = component.querySelectorAll('.sjs-TextWindow-submit')[0];
+var form = component.querySelectorAll('Form')[0];
+
 Hide();
 Clear();
 var visible = false;
@@ -51,6 +55,42 @@ export async function ReadKey() {
         // e.keyCode (characters) => 0
         // e.charCode (special keys) => 0
         // e.keyCode (special keys) => (ex. 'Enter' => 13)
+}
+
+export async function ReadLine() {
+    textInput.value = "";
+    textInput.classList.remove('hidden');
+    submitButon.classList.remove('hidden');
+    textInput.focus();
+    return await new Promise(resolve => {
+        var handler = e => {
+            e.preventDefault();
+            form.onsubmit = null;
+            submitButon.classList.add('hidden');
+            textInput.classList.add('hidden');
+            resolve(textInput.value);
+            return false;
+        };
+        form.onsubmit = handler;
+    });
+}
+
+export async function ReadNumber() {
+    numberInput.value = "";
+    numberInput.classList.remove('hidden');
+    submitButon.classList.remove('hidden');
+    numberInput.focus();
+    return await new Promise(resolve => {
+        var handler = e => {
+            e.preventDefault();
+            form.onsubmit = null;
+            submitButon.classList.add('hidden');
+            numberInput.classList.add('hidden');
+            resolve(Number(numberInput.value));
+            return false;
+        };
+        form.onsubmit = handler;
+    });
 }
 
 export async function PauseIfVisible() {
