@@ -1,3 +1,13 @@
+// See http://smallbasic.com/doc.aspx?o=TextWindow
+// TODO:
+// ForegroundColor propery: Gets or sets the foreground color of the text to be output in the text window.
+// BackgroundColor propery: Gets or sets the background color of the text to be output in the text window.
+// CursorLeft propery: Gets or sets the cursor's column position on the text window.
+// CursorTop propery: Gets or sets the cursor's row position on the text window.
+// Left propery: Gets or sets the Left position of the Text Window.
+// Title propery: Gets or sets the Title for the text window.
+// Top propery: Gets or sets the Top position of the Text Window.
+
 var component = document.getElementById('sjs-TextWindow');
 var textarea = component.querySelectorAll('.sjs-TextWindow-textarea')[0];
 var textInput = component.querySelectorAll('.sjs-TextWindow-textline')[0];
