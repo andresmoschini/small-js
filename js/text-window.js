@@ -21,12 +21,12 @@ var visible = false;
 
 export function Show() {
     visible = true;
-    textarea.classList.remove('hidden');
+    component.classList.remove('hidden');
 }
 
 export function Hide() {
     visible = false;
-    textarea.classList.add('hidden');
+    component.classList.add('hidden');
 }
 
 export function Clear() {
