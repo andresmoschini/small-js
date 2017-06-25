@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "browser-es-module-loader": "^0.4.1"
+  }
+}
