@@ -15,6 +15,10 @@ var numberInput = component.querySelectorAll('.sjs-TextWindow-number')[0];
 var submitButon = component.querySelectorAll('.sjs-TextWindow-submit')[0];
 var form = component.querySelectorAll('Form')[0];
 
+function delayResponse(value) {
+    return new Promise(resolve => setTimeout(() => resolve(value), 0));
+}
+
 Hide();
 Clear();
 var visible = false;
@@ -22,23 +26,28 @@ var visible = false;
 export function Show() {
     visible = true;
     component.classList.remove('hidden');
+    return delayResponse();
 }
 
 export function Hide() {
     visible = false;
     component.classList.add('hidden');
+    return delayResponse();
 }
 
 export function Clear() {
     textarea.value = "";
+    return delayResponse();
 }
 
 export function Write(msg) {
     textarea.value += msg;
+    return delayResponse();
 }
 
-export function WriteLine(msg) {
+export async function WriteLine(msg) {
     textarea.value += msg + "\r\n";
+    return delayResponse();
 }
 
 export async function Pause() {

@@ -15,6 +15,9 @@ async function main() {
     await TextWindow.WriteLine("Ingrese un número:");
     var n = await TextWindow.ReadNumber();
     await TextWindow.WriteLine("number: " + n);
+    // while (true) {
+    //     await TextWindow.WriteLine("Hola");
+    // }
     //await TextWindow.Pause();
     //await TextWindow.Hide();
 }
