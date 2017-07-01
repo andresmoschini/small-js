@@ -1,7 +1,5 @@
 // See http://smallbasic.com/doc.aspx?o=TextWindow
 // TODO:
-// ForegroundColor propery: Gets or sets the foreground color of the text to be output in the text window.
-// BackgroundColor propery: Gets or sets the background color of the text to be output in the text window.
 // CursorLeft propery: Gets or sets the cursor's column position on the text window.
 // CursorTop propery: Gets or sets the cursor's row position on the text window.
 // Left propery: Gets or sets the Left position of the Text Window.
@@ -24,6 +22,40 @@ export class TextWindowClass {
         this._visible = false;
         this.Hide();
         this.Clear();
+    }
+
+    // TODO: determine the best option for properties:
+    // For example with BackgroundColor. The property is more 
+    // simillar to SmallBasic but the property does not support 
+    // asynchronous working, so have setBackgroundColor and 
+    // getBackgroundColor functions sounds better. Or should I 
+    // also keep the property?
+    set BackgroundColor(value) { 
+        this._textareaEl.style["background-color"] = value;
+    }
+    setBackgroundColor(value) {
+        this.BackgroundColor = value;
+        return utilities.delayResponse();
+    }
+    get BackgroundColor() { 
+        return this._textareaEl.style["background-color"]; 
+    }
+    getBackgroundColor() {
+        return utilities.delayResponse(this.BackgroundColor);
+    }
+
+    set ForegroundColor(value) {
+        this._textareaEl.style["color"] = value;
+    }
+    setForegroundColor(value) {
+        this.ForegroundColor = value;
+        return utilities.delayResponse();
+    }
+    get ForegroundColor() {
+        return this._textareaEl.style["color"];
+    }
+    getForegroundColor() {
+        return utilities.delayResponse(this.ForegroundColor);
     }
 
     Show() {

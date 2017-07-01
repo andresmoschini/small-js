@@ -10,6 +10,9 @@ async function main() {
     await GraphicsWindow.Show();
     await TextWindow.WriteLine("Hola");
     await TextWindow.PauseIfVisible();
+    TextWindow.BackgroundColor = "pink";
+    TextWindow.ForegroundColor = "red";
+    await TextWindow.WriteLine(TextWindow.BackgroundColor);
     await TextWindow.WriteLine("Despues de una tecla");
     var k = await TextWindow.ReadKey();
     await TextWindow.WriteLine("key: " + k);
@@ -19,6 +22,10 @@ async function main() {
     await TextWindow.WriteLine("Ingrese un número:");
     var n = await TextWindow.ReadNumber();
     await TextWindow.WriteLine("number: " + n);
+    // while (true) {
+    //     await TextWindow.setBackgroundColor("green");
+    //     await TextWindow.setBackgroundColor("red");
+    // }
     // while (true) {
     //     await TextWindow.WriteLine("Hola");
     // }
