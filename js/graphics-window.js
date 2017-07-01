@@ -5,27 +5,33 @@
 // TODO:
 // All methods, properties and events
 
+import * as utilities from './utilities.js';
 
+export class GraphicsWindowClass {
+    constructor(elements) {
+        elements = utilities.parseElementsOptions(elements);
 
-var component = document.getElementById('sjs-GraphicsWindow');
-var canvas = component.getElementsByTagName('Canvas')[0];
-var context = canvas.getContext("2d");
+        this._componentEl = elements.component || document.getElementById('sjs-GraphicsWindow');
+        this._canvasEl = elements.canvas || this._componentEl.getElementsByTagName('Canvas')[0];
+        this._canvasContext2d = this._canvasEl.getContext("2d");
+        this._visible = false;
 
-Hide();
-Clear();
-var visible = false;
+        this.Hide();
+        this.Clear();
+    }
+    Show() {
+        this._visible = true;
+        this._componentEl.classList.remove('hidden');
+    }
+    
+    Hide() {
+        this._visible = false;
+        this._componentEl.classList.add('hidden');
+    }
 
-export function Show() {
-    visible = true;
-    component.classList.remove('hidden');
+    Clear() {
+        this._canvasContext2d.clearRect(0, 0, 500, 500); // TODO: ensure to clear all
+    }
 }
 
-export function Hide() {
-    visible = false;
-    component.classList.add('hidden');
-}
-
-export function Clear() {
-    context.clearRect(0, 0, 500, 500); // TODO: ensure to clear all
-}
-
+export var GraphicsWindow = new GraphicsWindowClass(document.getElementById('sjs-GraphicsWindow'));

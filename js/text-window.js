@@ -8,112 +8,118 @@
 // Title propery: Gets or sets the Title for the text window.
 // Top propery: Gets or sets the Top position of the Text Window.
 
-var component = document.getElementById('sjs-TextWindow');
-var textarea = component.querySelectorAll('.sjs-TextWindow-textarea')[0];
-var textInput = component.querySelectorAll('.sjs-TextWindow-textline')[0];
-var numberInput = component.querySelectorAll('.sjs-TextWindow-number')[0];
-var submitButon = component.querySelectorAll('.sjs-TextWindow-submit')[0];
-var form = component.querySelectorAll('Form')[0];
+import * as utilities from './utilities.js';
 
-function delayResponse(value) {
-    return new Promise(resolve => setTimeout(() => resolve(value), 0));
-}
+export class TextWindowClass {
+    constructor(elements) {
+        elements = utilities.parseElementsOptions(elements);
 
-Hide();
-Clear();
-var visible = false;
+        this._componentEl = elements.component || document.getElementById('sjs-TextWindow');
+        this._textareaEl = elements.textarea || this._componentEl.querySelectorAll('.sjs-TextWindow-textarea')[0];
+        this._textInputEl = elements.textInput || this._componentEl.querySelectorAll('.sjs-TextWindow-textline')[0];
+        this._numberInputEl = elements.numberInput || this._componentEl.querySelectorAll('.sjs-TextWindow-number')[0];
+        this._submitButtonEl = elements.submitButton || this._componentEl.querySelectorAll('.sjs-TextWindow-submit')[0];
+        this._formEl = elements.form || this._componentEl.querySelectorAll('Form')[0];
+        
+        this._visible = false;
+        this.Hide();
+        this.Clear();
+    }
 
-export function Show() {
-    visible = true;
-    component.classList.remove('hidden');
-    return delayResponse();
-}
+    Show() {
+        this._visible = true;
+        this._componentEl.classList.remove('hidden');
+        return utilities.delayResponse();
+    }
 
-export function Hide() {
-    visible = false;
-    component.classList.add('hidden');
-    return delayResponse();
-}
+    Hide() {
+        this._visible = false;
+        this._componentEl.classList.add('hidden');
+        return utilities.delayResponse();
+    }
 
-export function Clear() {
-    textarea.value = "";
-    return delayResponse();
-}
+    Clear() {
+        this._textareaEl.value = "";
+        return utilities.delayResponse();
+    }
 
-export function Write(msg) {
-    textarea.value += msg;
-    return delayResponse();
-}
+    Write(msg) {
+        this._textareaEl.value += msg;
+        return utilities.delayResponse();
+    }
 
-export async function WriteLine(msg) {
-    textarea.value += msg + "\r\n";
-    return delayResponse();
-}
+    async WriteLine(msg) {
+        this._textareaEl.value += msg + "\r\n";
+        return utilities.delayResponse();
+    }
 
-export async function Pause() {
-    await WriteLine("Press any key . . .");
-    await PauseWithoutMessage();
-}
+    async Pause() {
+        await this.WriteLine("Press any key . . .");
+        await this.PauseWithoutMessage();
+    }
 
-export async function PauseWithoutMessage() {
-    await ReadKey();
-}
+    async PauseWithoutMessage() {
+        await this.ReadKey();
+    }
 
-export async function ReadKey() {
-    textarea.focus();
-    return await new Promise(resolve => {
-        var handler = e => {
-            textarea.removeEventListener("keypress", handler);
-            resolve(e.charCode);
-        };
-        textarea.addEventListener("keypress", handler);
-    }); 
-        // e.key (character) => character (ex. 'a')
-        // e.key (special keys) => key name (ex. 'Enter')
-        // e.charCode (characters) => (ex. 'a' => 97)
-        // e.keyCode (characters) => 0
-        // e.charCode (special keys) => 0
-        // e.keyCode (special keys) => (ex. 'Enter' => 13)
-}
+    async ReadKey() {
+        this._textareaEl.focus();
+        return await new Promise(resolve => {
+            var handler = e => {
+                this._textareaEl.removeEventListener("keypress", handler);
+                resolve(e.charCode);
+            };
+            this._textareaEl.addEventListener("keypress", handler);
+        }); 
+            // e.key (character) => character (ex. 'a')
+            // e.key (special keys) => key name (ex. 'Enter')
+            // e.charCode (characters) => (ex. 'a' => 97)
+            // e.keyCode (characters) => 0
+            // e.charCode (special keys) => 0
+            // e.keyCode (special keys) => (ex. 'Enter' => 13)
+    }
 
-export async function ReadLine() {
-    textInput.value = "";
-    textInput.classList.remove('hidden');
-    submitButon.classList.remove('hidden');
-    textInput.focus();
-    return await new Promise(resolve => {
-        var handler = e => {
-            e.preventDefault();
-            form.onsubmit = null;
-            submitButon.classList.add('hidden');
-            textInput.classList.add('hidden');
-            resolve(textInput.value);
-            return false;
-        };
-        form.onsubmit = handler;
-    });
-}
+    async ReadLine() {
+        this._textInputEl.value = "";
+        this._textInputEl.classList.remove('hidden');
+        this._submitButtonEl.classList.remove('hidden');
+        this._textInputEl.focus();
+        return await new Promise(resolve => {
+            var handler = e => {
+                e.preventDefault();
+                this._formEl.onsubmit = null;
+                this._submitButtonEl.classList.add('hidden');
+                this._textInputEl.classList.add('hidden');
+                resolve(this._textInputEl.value);
+                return false;
+            };
+            this._formEl.onsubmit = handler;
+        });
+    }
 
-export async function ReadNumber() {
-    numberInput.value = "";
-    numberInput.classList.remove('hidden');
-    submitButon.classList.remove('hidden');
-    numberInput.focus();
-    return await new Promise(resolve => {
-        var handler = e => {
-            e.preventDefault();
-            form.onsubmit = null;
-            submitButon.classList.add('hidden');
-            numberInput.classList.add('hidden');
-            resolve(Number(numberInput.value));
-            return false;
-        };
-        form.onsubmit = handler;
-    });
-}
+    async ReadNumber() {
+        this._numberInputEl.value = "";
+        this._numberInputEl.classList.remove('hidden');
+        this._submitButtonEl.classList.remove('hidden');
+        this._numberInputEl.focus();
+        return await new Promise(resolve => {
+            var handler = e => {
+                e.preventDefault();
+                this._formEl.onsubmit = null;
+                this._submitButtonEl.classList.add('hidden');
+                this._numberInputEl.classList.add('hidden');
+                resolve(Number(this._numberInputEl.value));
+                return false;
+            };
+            this._formEl.onsubmit = handler;
+        });
+    }
 
-export async function PauseIfVisible() {
-    if (visible) {
-        await Pause();
+    async PauseIfVisible() {
+        if (this._visible) {
+            await this.Pause();
+        }
     }
 }
+
+export var TextWindow = new TextWindowClass(document.getElementById('sjs-TextWindow'));

@@ -1,6 +1,10 @@
-import * as TextWindow from './text-window.js';
-import * as GraphicsWindow from './graphics-window.js';
+import { 
+    TextWindow, 
+    GraphicsWindow,
+} from './small-js.js';
+
 main();
+
 async function main() {
     await TextWindow.Show();
     await GraphicsWindow.Show();
