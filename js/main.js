@@ -8,6 +8,7 @@ main();
 async function main() {
     await TextWindow.Show();
     await GraphicsWindow.Show();
+    GraphicsWindow.BackgroundColor = "green";
     await TextWindow.WriteLine("Hola");
     await TextWindow.PauseIfVisible();
     TextWindow.BackgroundColor = "pink";
