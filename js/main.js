@@ -20,6 +20,14 @@ async function main() {
     GraphicsWindow.DrawLine(5, 5, 100, 100);
     await GraphicsWindow.DrawRectangle(5, 5, 20, 20);
     await GraphicsWindow.FillRectangle(20, 20, 50, 50);
+    await GraphicsWindow.SetPixel(50, 50, "red");
+    await GraphicsWindow.SetPixel(50, 51, "red");
+    await GraphicsWindow.SetPixel(50, 52, "red");
+    await GraphicsWindow.SetPixel(50, 53, "red");
+    await GraphicsWindow.SetPixel(50, 54, "red");
+    await GraphicsWindow.SetPixel(50, 55, "red");
+    var color = await GraphicsWindow.GetPixel(50, 50);
+    await TextWindow.WriteLine("color: " + color);
     GraphicsWindow.PenColor = "orange";
     GraphicsWindow.PenWidth = 10;
     await GraphicsWindow.DrawRectangle(40, 40, 100, 100);

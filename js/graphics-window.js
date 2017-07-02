@@ -116,6 +116,26 @@ export class GraphicsWindowClass {
         this._canvasContext2d.stroke();
         return utilities.delayResponse();
     }
+
+    SetPixel(x, y, color) {
+        console.log(`color: ${color}`);
+        var rgb = utilities.colorToRgb(color);
+        var pixel = this._canvasContext2d.createImageData(1, 1);
+        var data = pixel.data;
+        data[0] = rgb[0];
+        data[1] = rgb[1];
+        data[2] = rgb[2];
+        data[3] = 255;
+        this._canvasContext2d.putImageData(pixel, x, y);
+        return utilities.delayResponse();
+    }
+
+    GetPixel(x, y) {
+        var pixel = this._canvasContext2d.getImageData(x, y, 1, 1);
+        var data = pixel.data;
+        var color = utilities.rgbToKeyword(data) || utilities.rgbToHex(data);
+        return utilities.delayResponse(color);
+    }
 }
 
 export var GraphicsWindow = new GraphicsWindowClass(document.getElementById('sjs-GraphicsWindow'));
