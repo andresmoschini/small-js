@@ -12,7 +12,8 @@ export class TextWindowClass {
     constructor(elements) {
         elements = utilities.parseElementsOptions(elements);
 
-        this._componentEl = elements.component || document.getElementById('sjs-TextWindow');
+        this._document = elements.document || document;
+        this._componentEl = elements.component || this._document.getElementById('sjs-TextWindow');
         this._textareaEl = elements.textarea || this._componentEl.querySelectorAll('.sjs-TextWindow-textarea')[0];
         this._textInputEl = elements.textInput || this._componentEl.querySelectorAll('.sjs-TextWindow-textline')[0];
         this._numberInputEl = elements.numberInput || this._componentEl.querySelectorAll('.sjs-TextWindow-number')[0];

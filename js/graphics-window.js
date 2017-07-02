@@ -11,7 +11,8 @@ export class GraphicsWindowClass {
     constructor(elements) {
         elements = utilities.parseElementsOptions(elements);
 
-        this._componentEl = elements.component || document.getElementById('sjs-GraphicsWindow');
+        this._document = elements.document || document;
+        this._componentEl = elements.component || this._document.getElementById('sjs-GraphicsWindow');
         this._canvasEl = elements.canvas || this._componentEl.getElementsByTagName('Canvas')[0];
         this._canvasContext2d = this._canvasEl.getContext("2d");
         this._visible = false;
@@ -25,10 +26,10 @@ export class GraphicsWindowClass {
         this.Clear();
 
         this._lastDownTarget = null;
-        document.addEventListener("mousedown", e => {
+        this._document.addEventListener("mousedown", e => {
             this._lastDownTarget = e.target;
         }, false);
-        document.addEventListener("keypress", e => {
+        this._document.addEventListener("keypress", e => {
             if(this._lastDownTarget == this._canvasEl) {
                 this._lastKey = e.key;
             }         
