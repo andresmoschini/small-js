@@ -17,10 +17,9 @@ export class GraphicsWindowClass {
         this._canvasContext2d = this._canvasEl.getContext("2d");
         this._visible = false;
 
-        this._brushColor = "black";
-        this._penWidth = 1;
-        this._penColor = "black";
         this._lastKey = null;
+        this._mouseX = null;
+        this._mouseY = null;
 
         this.Hide();
         this.Clear();
@@ -34,6 +33,11 @@ export class GraphicsWindowClass {
                 this._lastKey = e.key;
             }         
         }, false);
+        
+        // this._canvasEl.addEventListener("mousemove", e => {
+        //     this._mouseX = canvasOffset.left;
+        //     this._mouseY = canvasOffset.top;
+        // }, false);
     }
 
     Show() {
@@ -47,7 +51,7 @@ export class GraphicsWindowClass {
     }
 
     Clear() {
-        this._canvasContext2d.clearRect(0, 0, 500, 500); // TODO: ensure to clear all
+        this._canvasContext2d.clearRect(0, 0, this._canvasEl.width, this._canvasEl.height);
     }
 
     set BackgroundColor(value) { 
@@ -65,28 +69,52 @@ export class GraphicsWindowClass {
     }
 
     set BrushColor(value) { 
-        this._brushColor = value;
+        this._canvasContext2d.fillStyle = value;
     }
     get BrushColor() { 
-        return this._brushColor;
+        return this._canvasContext2d.fillStyle;
     }
 
     set PenWidth(value) { 
-        this._penWidth = value;
+        this._canvasContext2d.lineWidth = value;
     }
     get PenWidth() { 
-        return this._penWidth;
+        return this._canvasContext2d.lineWidth;
     }
 
     set PenColor(value) { 
-        this._penColor = value;
+        this._canvasContext2d.strokeStyle = value;
     }
     get PenColor() { 
-        return this._penColor;
+        return this._canvasContext2d.strokeStyle;
     }
 
     get LastKey() { 
         return this._lastKey;
+    }
+
+    get MouseX() { 
+        return this._mouseX;
+    }
+    get MouseY() { 
+        return this._mouseY;
+    }
+
+    DrawRectangle(x, y, width, height) {
+        this._canvasContext2d.strokeRect(x, y, width, height);
+        return utilities.delayResponse();
+    }
+
+    FillRectangle(x, y, width, height) {
+        this._canvasContext2d.fillRect(x, y, width, height);
+        return utilities.delayResponse();
+    }
+
+    DrawLine(x1, y1, x2, y2) {
+        this._canvasContext2d.moveTo(x1, y1);
+        this._canvasContext2d.lineTo(x2, y2);
+        this._canvasContext2d.stroke();
+        return utilities.delayResponse();
     }
 }
 
