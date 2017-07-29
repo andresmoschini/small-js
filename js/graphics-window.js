@@ -7,6 +7,53 @@
 
 import * as utilities from './utilities.js';
 
+export class MouseClass {
+    constructor(elements) {
+        this._document = elements.document || document;
+        this._componentEl = elements.component;
+        this._mouseX = null;
+        this._mouseY = null;
+        this._isLeftButtonDown = false;
+        this._isRigthButtonDown = false;
+        this._isMiddleButtonDown = false;
+
+        this._componentEl.addEventListener("mousedown", e => {
+            this._updateButtons(e.buttons);
+        }, false);
+
+        this._componentEl.addEventListener("mouseup", e => {
+            this._updateButtons(e.buttons);
+        }, false);
+
+        this._componentEl.addEventListener("mousemove", e => {
+            this._mouseX = e.offsetX;
+            this._mouseY = e.offsetY;
+        }, false);
+    }
+
+    _updateButtons(buttonsFlag) {
+        this._isLeftButtonDown = (buttonsFlag & 1) == 1;
+        this._isRigthButtonDown = (buttonsFlag & 2) == 2;
+        this._isMiddleButtonDown = (buttonsFlag & 4) == 4;
+    }
+
+    get MouseX() { 
+        return this._mouseX;
+    }
+    get MouseY() { 
+        return this._mouseY;
+    }
+    get IsLeftButtonDown() { 
+        return this._isLeftButtonDown;
+    }
+    get IsRigthButtonDown() { 
+        return this._isRigthButtonDown;
+    }
+    get IsMiddleButtonDown() { 
+        return this._isMiddleButtonDown;
+    }
+}
+
 export class GraphicsWindowClass {
     constructor(elements) {
         elements = utilities.parseElementsOptions(elements);
@@ -15,29 +62,41 @@ export class GraphicsWindowClass {
         this._componentEl = elements.component || this._document.getElementById('sjs-GraphicsWindow');
         this._canvasEl = elements.canvas || this._componentEl.getElementsByTagName('Canvas')[0];
         this._canvasContext2d = this._canvasEl.getContext("2d");
+        this._title = this._componentEl.getElementsByTagName('h2')[0];
         this._visible = false;
 
+        this._mouseDown = null;
+        this._mouseUp = null;
+        this._mouseMove = null;
         this._lastKey = null;
-        this._mouseX = null;
-        this._mouseY = null;
 
         this.Hide();
         this.Clear();
+
+        this._mouse = new MouseClass({ document: this._document, component: this._canvasEl });
 
         this._lastDownTarget = null;
         this._document.addEventListener("mousedown", e => {
             this._lastDownTarget = e.target;
         }, false);
-        this._document.addEventListener("keypress", e => {
-            if(this._lastDownTarget == this._canvasEl) {
-                this._lastKey = e.key;
-            }         
+        this._canvasEl.addEventListener("keypress", e => {
+            if (this._lastDownTarget == this._canvasEl) {
+                this._lastKey = e.key
+            }
         }, false);
-        
-        // this._canvasEl.addEventListener("mousemove", e => {
-        //     this._mouseX = canvasOffset.left;
-        //     this._mouseY = canvasOffset.top;
-        // }, false);
+        this._canvasEl.addEventListener("mousedown", e => {
+            this._mouseDown && this._mouseDown();
+        }, false);
+        this._canvasEl.addEventListener("mouseup", e => {
+            this._mouseUp && this._mouseUp();
+        }, false);
+        this._canvasEl.addEventListener("mousemove", e => {
+            this._mouseMove && this._mouseMove();
+        }, false);
+    }
+
+    get Mouse() { 
+        return this._mouse;
     }
 
     Show() {
@@ -57,14 +116,14 @@ export class GraphicsWindowClass {
     set BackgroundColor(value) { 
         this._canvasEl.style["background-color"] = value;
     }
-    setBackgroundColor(value) {
+    SetBackgroundColor(value) {
         this.BackgroundColor = value;
         return utilities.delayResponse();
     }
     get BackgroundColor() { 
         return this._canvasEl.style["background-color"]; 
     }
-    getBackgroundColor() {
+    GetBackgroundColor() {
         return utilities.delayResponse(this.BackgroundColor);
     }
 
@@ -89,15 +148,29 @@ export class GraphicsWindowClass {
         return this._canvasContext2d.strokeStyle;
     }
 
-    get LastKey() { 
-        return this._lastKey;
+
+    set MouseDown(value) { 
+        console.log([ "MouseDown", value ]);
+        this._mouseDown = value;
+    }
+    get MouseDown() { 
+        return this._mouseDown; 
+    }
+    set MouseUp(value) { 
+        this._mouseUp = value;
+    }
+    get MouseUp() { 
+        return this._mouseUp; 
+    }
+    set MouseMove(value) { 
+        this._mouseMove = value;
+    }
+    get MouseMove() { 
+        return this._mouseMove; 
     }
 
-    get MouseX() { 
-        return this._mouseX;
-    }
-    get MouseY() { 
-        return this._mouseY;
+    get LastKey() { 
+        return this._lastKey;
     }
 
     DrawRectangle(x, y, width, height) {
@@ -136,6 +209,16 @@ export class GraphicsWindowClass {
         var color = utilities.rgbToKeyword(data) || utilities.rgbToHex(data);
         return utilities.delayResponse(color);
     }
+
+    SetTitle(value) {
+        this._title.innerText = value;
+        return utilities.delayResponse();
+    }
+
+    GetTitle() {
+        return utilities.delayResponse(this._title.innerText);
+    }
 }
 
 export var GraphicsWindow = new GraphicsWindowClass(document.getElementById('sjs-GraphicsWindow'));
+export var Mouse = GraphicsWindow.Mouse;

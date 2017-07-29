@@ -34,28 +34,28 @@ export class TextWindowClass {
     set BackgroundColor(value) { 
         this._textareaEl.style["background-color"] = value;
     }
-    setBackgroundColor(value) {
+    SetBackgroundColor(value) {
         this.BackgroundColor = value;
         return utilities.delayResponse();
     }
     get BackgroundColor() { 
         return this._textareaEl.style["background-color"]; 
     }
-    getBackgroundColor() {
+    GetBackgroundColor() {
         return utilities.delayResponse(this.BackgroundColor);
     }
 
     set ForegroundColor(value) {
         this._textareaEl.style["color"] = value;
     }
-    setForegroundColor(value) {
+    SetForegroundColor(value) {
         this.ForegroundColor = value;
         return utilities.delayResponse();
     }
     get ForegroundColor() {
         return this._textareaEl.style["color"];
     }
-    getForegroundColor() {
+    GetForegroundColor() {
         return utilities.delayResponse(this.ForegroundColor);
     }
 

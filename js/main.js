@@ -1,6 +1,7 @@
 import { 
     TextWindow, 
     GraphicsWindow,
+    Mouse,
 } from './small-js.js';
 
 main();
@@ -8,6 +9,33 @@ main();
 async function main() {
     await TextWindow.Show();
     await GraphicsWindow.Show();
+    
+    await GraphicsWindow.SetBackgroundColor("green");
+    
+    await GraphicsWindow.SetTitle(await GraphicsWindow.GetTitle() + "!");
+
+    GraphicsWindow.MouseDown = OnMouseDown;
+    GraphicsWindow.MouseMove = OnMouseMove;
+
+    //TextWindow.WriteLine(Mouse);
+
+    async function OnMouseDown() {
+        // TODO: is it necessary to identify last button clicked?
+        var text = "";
+        if (Mouse.IsLeftButtonDown) {
+            await GraphicsWindow.SetTitle("The left mouse button was clicked.");
+        } else if (Mouse.IsRightButtonDown) {
+            await GraphicsWindow.SetTitle("The right mouse button was clicked.");
+        } else if (Mouse.IsMiddleButtonDown) {
+            await GraphicsWindow.SetTitle("The middle mouse button was clicked.");
+        }
+    }
+
+    async function OnMouseMove() {
+        await GraphicsWindow.SetTitle("Mouse moved to " + Mouse.MouseX + ", " + Mouse.MouseY);
+    }
+
+    /*
     GraphicsWindow.BackgroundColor = "green";
     await TextWindow.WriteLine("Hola");
     await TextWindow.PauseIfVisible();
@@ -31,10 +59,11 @@ async function main() {
     GraphicsWindow.PenColor = "orange";
     GraphicsWindow.PenWidth = 10;
     await GraphicsWindow.DrawRectangle(40, 40, 100, 100);
-
+*/
     // while (true) {
     //     await TextWindow.WriteLine(`(${GraphicsWindow.MouseX}, ${GraphicsWindow.MouseY})`);
     // }
+    /*
     await TextWindow.WriteLine("Despues de una tecla");
     var k = await TextWindow.ReadKey();
     await TextWindow.WriteLine("key: " + k);
@@ -44,6 +73,7 @@ async function main() {
     await TextWindow.WriteLine("Ingrese un número:");
     var n = await TextWindow.ReadNumber();
     await TextWindow.WriteLine("number: " + n);
+    */
     // while (true) {
     //     await TextWindow.setBackgroundColor("green");
     //     await TextWindow.setBackgroundColor("red");
