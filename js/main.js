@@ -24,7 +24,7 @@ async function main() {
         var text = "";
         if (Mouse.IsLeftButtonDown) {
             await GraphicsWindow.SetTitle("The left mouse button was clicked.");
-        } else if (Mouse.IsRightButtonDown) {
+        } else if (Mouse.IsRigthButtonDown) {
             await GraphicsWindow.SetTitle("The right mouse button was clicked.");
         } else if (Mouse.IsMiddleButtonDown) {
             await GraphicsWindow.SetTitle("The middle mouse button was clicked.");
