@@ -17,6 +17,11 @@ export class MouseClass {
         this._isRigthButtonDown = false;
         this._isMiddleButtonDown = false;
 
+        this._componentEl.addEventListener("contextmenu", e => {
+            e.preventDefault();
+            return false;
+        }, false);
+
         this._componentEl.addEventListener("mousedown", e => {
             this._updateButtons(e.buttons);
         }, false);
